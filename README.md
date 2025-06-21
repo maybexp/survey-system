@@ -2,7 +2,7 @@
 
 Create and answer surveys
 
-![img.png](img.png)
+<img alt="img.png" src="img.png" width="400"/>
 
 ## Features:
 - Create and answer survey
@@ -21,7 +21,7 @@ Create and answer surveys
   - Directory: `src/main/java/com/example/sp4/UI/CommandLine/UICommandLineStart.java`
 - OR type `Main.java -cmd` (only if you have Java in your path variable)
 
-<img alt="img_1.png" src="img_1.png" width="10" height=""/>
+<img alt="img_1.png" src="img_1.png" width="400"/>
 
 ## Class diagram
 
