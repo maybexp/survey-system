@@ -1,0 +1,295 @@
+@startuml
+'https://plantuml.com/class-diagram
+title SP4 - Class Diagram
+
+class Main {
+}
+
+package Question{
+    abstract class Question <<Serializable>> {
+        - questionName : String
+        - questionDescription : String
+        __
+        ..Abstract methods..
+        + {abstract} addAnswer()
+        + {abstract} addResult()
+        + {abstract} getAnswers()
+        ..Getters & Setters..
+        + getQuestionName()
+        + getQuestionDescription()
+    }
+
+    class MultipleChoice {
+        - answers = HashMap<String, Integer>
+        __
+        ..Overridden methods..
+        + addAnswer()
+        + addResult()
+        + getAnswers()
+    }
+
+    Question <|-- MultipleChoice
+}
+
+class Survey <<Serializable>> {
+    - ID : long
+    - surveyTitle : String
+    - surveyDescription : String
+    - questions : Question[]
+    - fromDB : boolean
+    __
+    + compareTo()
+    ..Getters & Setters..
+    + getSurveyTitle()
+    + getSurveyDescription()
+    + getQuestions()
+    + isFromDB()
+    + setFromDB()
+    + getID()
+    + setID()
+}
+
+Survey *--"1..*" Question
+
+
+package IO {
+    interface IO {
+        + read()
+        + save()
+        + remove()
+        + update()
+    }
+
+    class IOFile {
+        __
+        ..Overridden..
+        + read()
+        + save()
+        + remove()
+        + update()
+    }
+
+    class IODatabase {
+        - conn : Connection
+        __
+        + uploadSurvey()
+        + getSurvey()
+    }
+
+    IO <|.. IOFile
+    IO <|.. IODatabase
+
+    IO -- Survey
+}
+
+package UI {
+    package UICommandLine #CCFFCC {
+        class UICommandLineScanner {
+            -sc : Scanner
+
+            +getUserInput(String msg)
+            +getUserInput(String msg, String[] validOptions)
+            +getUserInputYesOrNo(String msg)
+        }
+        class UICommandLineStart {
+            -validOptions : String[]
+            -choice : String
+            -scan : UICommandLineScanner
+
+            +UIShowStart(Survey[] surveys)
+        }
+        class UICommandLineAnswer {
+            -validOptions : String[]
+            -choice : String
+            -chosenSurvey : Survey
+            -name : String
+            -scan : UICommandLineScanner
+
+            +UIShowAnswer(Survey[] surveys)
+        }
+        class UICommandLineCreate {
+            -choice : String
+            -surveyTitle : String
+            -surveyDescription : String
+            -survey : Survey
+            -scan : UICommandLineScanner
+
+            +UIShowCreate(Survey[] surveys)
+        }
+        class UICommandLineViewAnswers {
+            -validOptions : String[]
+            -choice : String
+            -scan : UICommandLineScanner
+
+            +UIShowViewAnswers(Survey[] surveys)
+        }
+        UICommandLineStart -- UICommandLineAnswer
+        UICommandLineStart -- UICommandLineCreate
+        UICommandLineStart -- UICommandLineViewAnswers
+
+        UICommandLineStart *-- UICommandLineScanner
+        UICommandLineAnswer *-- UICommandLineScanner
+        UICommandLineViewAnswers *-- UICommandLineScanner
+        UICommandLineCreate *-- UICommandLineScanner
+
+        UICommandLineViewAnswers -[hidden]- UICommandLine
+        UICommandLineAnswer -[hidden]- UICommandLine
+        UICommandLineCreate -[hidden]- UICommandLine
+
+        UICommandLineStart -- Main
+    }
+    package UIJavaFX #99DDFF {
+        class UIJavaFXMain {
+            - surveys[] : Survey
+            - io : IO
+            - start()
+        }
+        abstract class UIJavaFX {
+            # {static} ioFile : IO
+            # {static} ioDatabase : IO
+            ..
+            # {static} stage : Stage
+            # {static} surveys[] : Survey
+            # {static} survey : Survey
+            __
+            ..Getters & Setters..
+            + {static} setStage()
+            + {static} setSurveys()
+            + {static} setSurvey()
+        }
+        class UIJavaFXStart <<Initializable>> {
+            - observableList : ObservableList<>
+            - choiceBoxItems : LinkedHashMap<>
+            ..FXML..
+            - surveysBox : VBox
+            - surveyTitleLabel : Label
+            - surveyDescriptionLabel : Label
+            - surveyAmountOfQuestionsLabel : Label
+            - openSurveyButton : Button
+            - openSurveyResultsButton : Button
+            - showLocalCheckBox : CheckBox
+            - showDatabaseCheckBox : CheckBox
+            - choiceBox : ChoiceBox
+            __
+            - noSurveys()
+            - updateSurveysBox()
+            - changeActiveSurvey()
+            - removeSurvey()
+            ..FXML..
+            - onOpenSurvey()
+            - onCreateNewSurvey()
+            - onChoiceBoxItemChange()
+            - onShowLocal()
+            - onShowDatabase()
+            ..Overridden..
+            + initialize()
+        }
+        class UIJavaFXAnswer <<Initializable>> {
+            ..FXML..
+            - questionBox : VBox
+            __
+            - loadQuestions()
+            - loadAnswers()
+            ..FXML..
+            - endSurvey()
+            ..Overridden..
+            + initialize()
+        }
+        class UIJavaFXCreate <<Initializable>> {
+            - questionContainers : QuestionContainer
+            - questionContainerButtonHashMap : HashMap<QuestionContainer, Button>
+            - invalidStyle : String
+            - saveToDatabase : boolean
+            - survey : Survey
+            - question : Question
+            ..FXML..
+            - surveyTitleField : TextField
+            - surveyDescriptionField : TextArea
+            - questionsVBox : VBox
+            - saveToDatabaseCheckBox : CheckBox
+            __
+            - onRemoveQuestion()
+            ..FXML..
+            - onSendSurvey()
+            - onAddNewQuestion()
+            - onSaveToDatabase()
+            - onCancel()
+            ..Overridden..
+            + initialize()
+        }
+        class QuestionContainer {
+            - answerTextFields : TextField[]
+            - textFieldButtonHashMap : HashMap
+            ..FXML..
+            - questionVBox : VBox
+            + questionTitleTextField : TextField
+            + questionDescriptionTextField : TextField
+            - answersVBox : VBox
+            - onAddNewAnswerButton : Button
+            __
+            - onAddNewAnswer()
+            - onRemoveAnswer()
+            - setDisableOnButtons()
+            + {static} removeStyles()
+        }
+        UIJavaFXStart --|> UIJavaFX
+        UIJavaFXAnswer --|> UIJavaFX
+        UIJavaFXCreate --|> UIJavaFX
+        UIJavaFXMain -[dotted,thickness=2]- UIJavaFXStart
+        UIJavaFXMain -[dotted,thickness=2]- UIJavaFXAnswer
+        UIJavaFXMain -[dotted,thickness=2]- UIJavaFXCreate
+
+        UIJavaFXMain *- Survey
+        Main -- UIJavaFXMain
+
+        UIJavaFX *--"2" IO
+        UIJavaFXMain *-- IO
+
+        UIJavaFXCreate --* QuestionContainer
+    }
+}
+
+package Comparators {
+    class TitleComparator {
+        __
+        + compareMain()
+        + compare()
+    }
+    class DescriptionComparator {
+        __
+        + compareMain()
+        + compare()
+    }
+    class LocationComparator {
+        __
+        + compareMain()
+        + compare()
+    }
+    class QuestionsComparator {
+        __
+        + compareMain()
+        + compare()
+    }
+    class SurveyFileComparator {
+        __
+        - getLastInt()
+        + compare
+    }
+
+    TitleComparator *-- DescriptionComparator
+    TitleComparator *--* QuestionsComparator
+    TitleComparator *--* LocationComparator
+
+    DescriptionComparator *--* QuestionsComparator
+    DescriptionComparator *--* LocationComparator
+
+    LocationComparator *--* QuestionsComparator
+}
+
+UIJavaFXStart -- TitleComparator
+UIJavaFXStart -- LocationComparator
+UIJavaFXStart -- QuestionsComparator
+
+SurveyFileComparator -* IOFile
+
+@enduml

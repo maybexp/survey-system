@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<Pane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.sp4.UI.JavaFX.UIJavaFXAnswer">
+   <children>
+      <HBox alignment="CENTER" layoutX="15.0" layoutY="20.0" prefHeight="348.0" prefWidth="577.0">
+         <children>
+            <ScrollPane hbarPolicy="NEVER" prefHeight="728.0" prefWidth="565.0" vbarPolicy="ALWAYS">
+               <content>
+                  <VBox>
+                     <children>
+                        <VBox fx:id="questionBox" prefHeight="347.0" prefWidth="550.0">
+                           <children>
+
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </content>
+
+            </ScrollPane>
+         </children>
+      </HBox>
+      <Button fx:id="endSurveyButton" layoutX="14.0" layoutY="374.0" mnemonicParsing="false" onAction="#endSurvey" prefHeight="25.0" prefWidth="95.0" text="Send Answers" />
+      <Button fx:id="cancelButton" layoutX="481.0" layoutY="374.0" mnemonicParsing="false" onAction="#cancel" prefHeight="25.0" prefWidth="95.0" text="Cancel" />
+   </children>
+</Pane>
