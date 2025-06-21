@@ -1,9 +1,8 @@
 # Survey program - first semester
 
 Create and answer surveys
-<div align="center">
+
 <img alt="img.png" src="img.png" width="400"/>
-</div>
 
 ## Features:
 - Create and answer survey
@@ -24,21 +23,24 @@ Create and answer surveys
 
 <img alt="img_1.png" src="img_1.png" width="400"/>
 
-## Class diagram
+<hr/>
+<br/>
+<br/>
+
+### Class diagram
 
 ![Class diagram](doc/Class%20Diagram-SP4___Class_Diagram.svg)
 
-## GUI Sketches
-**Made before coding the GUI**
+### GUI Sketches
 
-### Survey selection/start screen
+**Survey selection/start screen**
 
 ![Sketch](doc/UIStart%20GUI.png)
 
-### Survey creation screen
+**Survey creation screen**
 
 ![Sketch](doc/UICreate%20GUI.png)
 
-### Survey answer screen
+**Survey answer screen**
 
 ![Sketch](doc/UIAnswer%20GUI.png)
