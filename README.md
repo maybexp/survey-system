@@ -1,8 +1,9 @@
 # Survey program - first semester
 
 Create and answer surveys
-
+<div align="center">
 <img alt="img.png" src="img.png" width="400"/>
+</div>
 
 ## Features:
 - Create and answer survey
