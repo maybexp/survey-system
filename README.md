@@ -14,10 +14,10 @@ Create and answer surveys
 
 ## How to run:
 **GUI**
-- Run the program using Main.java
+- Run Main.java
 
 **Commandline**
-- Run the `UICommandLineStart.java`
+- Run `UICommandLineStart.java`
   - Directory: `src/main/java/com/example/sp4/UI/CommandLine/UICommandLineStart.java`
 - OR type `Main.java -cmd` (only if you have Java in your path variable)
 
