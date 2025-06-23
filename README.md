@@ -13,8 +13,8 @@ Create and answer surveys
 - View data in a pie chart
 
 ## How to run:
-** GUI **
-- Run the program normally (Using the Main.java)
+**GUI**
+- Run the program using Main.java
 
 **Commandline**
 - Run the `UICommandLineStart.java`
